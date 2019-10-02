@@ -12,31 +12,41 @@ using namespace std;
 
 int main()
 {
+    const int value_of_dollar = 100;
+    const int value_of_quarter = 25;
+    const int value_of_dime = 10;
+    const int value_of_nickel = 5;
+
     cout << "Enter the amount due and the amount received: ";
     double amount_due;
     double amount_received;
     cin >> amount_due >> amount_received;
+    int difference_in_pennies = static_cast<int>((value_of_dollar * (amount_received - amount_due)) + 0.5); // avoid roundoff error
 
-    int difference;
-    int dollars;
-    int quarters;
-    int dimes;
-    int nickels;
-    int pennies;
+    int change_in_dollars;
+    int change_in_quarters;
+    int change_in_dimes;
+    int change_in_nickels;
+    int change_in_pennies;
+    int remainder_after_dollars = difference_in_pennies % value_of_dollar;
+    int remainder_after_quarters = remainder_after_dollars % value_of_quarter;
+    int remainder_after_dimes = remainder_after_quarters % value_of_dime;
+    int remainder_after_nickels = remainder_after_dimes % value_of_nickel;
 
-    difference = 100 * (amount_received - amount_due); // difference in pennies
-    dollars = difference / 100;
-    quarters = (difference % 100) / 25;
-    dimes = ((difference % 100) % 25) / 10;
-    nickels = (((difference % 100) % 25) % 10) / 5;
-    pennies = (((difference % 100) % 25) % 10) % 5;
+    cout << "Change: " << amount_received - amount_due << "\n";
+    cout << "Change in pennies: " << difference_in_pennies << "\n";
+    change_in_dollars = difference_in_pennies / value_of_dollar;
+    change_in_quarters = remainder_after_dollars / value_of_quarter;
+    change_in_dimes = remainder_after_quarters / value_of_dime;
+    change_in_nickels = remainder_after_dimes / value_of_nickel;
+    change_in_pennies = remainder_after_nickels;
 
     cout << "Change due = $" << amount_received - amount_due << ":\n";
-    cout << dollars << " dollars\n";
-    cout << quarters << " quarters\n";
-    cout << dimes << " dimes\n";
-    cout << nickels << " nickels\n";
-    cout << pennies << " pennies\n";
+    cout << change_in_dollars << " dollars\n";
+    cout << change_in_quarters << " quarters\n";
+    cout << change_in_dimes << " dimes\n";
+    cout << change_in_nickels << " nickels\n";
+    cout << change_in_pennies << " pennies\n";
 
     return 0;
 }
